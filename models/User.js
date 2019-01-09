@@ -16,14 +16,12 @@ User.find({}, (err, users) => {
     const user1 = new User({
       email: 'test@example.com',
       password: '1234',
-      firstName: 'Alan',
-      lastName: 'Hong'
+      firstName: 'Alan'
     })
     const user2 = new User({
       email: 'test2@example.com',
       password: '1234',
-      firstName: 'Josh',
-      lastName: 'Miles'
+      firstName: 'Josh'
     })
     user1.save()
     user2.save()
