@@ -27,6 +27,6 @@ module.exports = (app) => {
   app.patch('/api/tasks/:id', TaskController.update)
   app.delete('/api/tasks/:id', TaskController.delete)
 
-  app.get('/api//users/:id/tasks', TaskController.filteredTasks)
+  app.get('/api/users/:id/tasks', TaskController.filteredTasks)
 
 }
