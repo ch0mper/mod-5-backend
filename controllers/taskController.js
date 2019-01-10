@@ -33,6 +33,30 @@ exports.create = async (req, res, next) => {
   res.json(task)
 }
 
+exports.update = async (req, res, next) => {
+  let [err, task] = await catchAsync(Task.findByIdAndUpdate(req.params.id, req.body, { new: true}))
+  if (err) {
+    res.status(500).json({
+      success: false,
+      error: err
+    })
+  } else {
+    res.json(task)
+  }
+}
+
+exports.delete = async (req, res, next) => {
+  let [err, task] = await catchAsync(Task.findByIdAndDelete(req.params.id))
+  if (err) {
+    res.status(500).json({
+      success: false,
+      error: err
+    })
+  } else {
+    res.json(task)
+  }
+}
+
 exports.filteredTasks = async (req, res, next) => {
   let tasks = await Task.find({userId: req.params.id})
   res.json(tasks)

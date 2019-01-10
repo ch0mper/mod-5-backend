@@ -34,3 +34,15 @@ exports.create = async (req, res, next) => {
   await user.save()
   res.json(user)
 }
+
+exports.delete = async (req, res, next) => {
+  let [err, user] = await catchAsync(User.findByIdAndDelete(req.params.id))
+  if (err) {
+    res.status(500).json({
+      success: false,
+      error: err
+    })
+  } else {
+    res.json(user)
+  }
+}
