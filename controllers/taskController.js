@@ -1,4 +1,4 @@
-const User = require('../models/User.js')
+const Task = require('../models/Task.js')
 
 let catchAsync = promise => {
   return new Promise( (resolve) => {
@@ -8,29 +8,32 @@ let catchAsync = promise => {
 }
 
 exports.index = (req, res, next) => {
-  User.find((err, users) => {
+  Task.find((err, tasks) => {
     if (err) {
       res.status(500).json({
         success: false,
         error: err
       })
     } else {
-      res.status(200).json(users)
+      res.status(200).json(tasks)
     }
   })
 }
 
 exports.show = async (req, res, next) => {
-  let user = await User.findById(req.params.id)
-  res.json(user)
+  let task = await Task.findById(req.params.id)
+  res.json(task)
 }
 
 exports.create = async (req, res, next) => {
-  let user = new User({
-    email: req.body.email,
-    password: req.body.password,
-    firstName: req.body.firstName
+  let task = new Task({
+    content: req.body.content
   })
-  await user.save()
-  res.json(user)
+  await task.save()
+  res.json(task)
+}
+
+exports.filteredTasks = async (req, res, next) => {
+  let tasks = await Task.find({userId: req.params.id})
+  res.json(tasks)
 }
