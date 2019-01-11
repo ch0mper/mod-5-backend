@@ -9,10 +9,11 @@ const tokenForUser = (user) => {
 
 exports.signin = (req, res, next) => {
   const token = tokenForUser(req.user)
-  res.json({token: token})
+  res.json({token: token, userId: req.user._id, firstName: req.user.firstName})
 }
 
 exports.signup = (req, res, next) => {
+  const firstName = req.body.firstName
   const email = req.body.email
   const password = req.body.password
 
@@ -29,6 +30,7 @@ exports.signup = (req, res, next) => {
     }
 
     const user = new User({
+      firstName: firstName,
       email: email,
       password: password
     })
@@ -39,7 +41,7 @@ exports.signup = (req, res, next) => {
       }
       user.password = 'HIDDEN'
       token = tokenForUser(user)
-      res.json({token: token})
+      res.json({token: token, userId: req.user._id})
     })
   })
 }
