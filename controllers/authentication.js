@@ -9,15 +9,16 @@ const tokenForUser = (user) => {
 
 exports.signin = (req, res, next) => {
   const token = tokenForUser(req.user)
-  res.json({token: token})
+  res.json({token: token, userId: req.user._id, firstName: req.user.firstName})
 }
 
 exports.signup = (req, res, next) => {
+  const firstName = req.body.firstName
   const email = req.body.email
   const password = req.body.password
 
-  if (!email || !password) {
-    return res.status(422).send({ error: 'You must provide an email and password.' })
+  if (!firstName || !email || !password) {
+    return res.status(422).send({ error: 'You must provide a name, email and password.' })
   }
 
   User.findOne({ email: email }, (err, existingUser) => {
@@ -29,6 +30,7 @@ exports.signup = (req, res, next) => {
     }
 
     const user = new User({
+      firstName: firstName,
       email: email,
       password: password
     })
@@ -39,7 +41,7 @@ exports.signup = (req, res, next) => {
       }
       user.password = 'HIDDEN'
       token = tokenForUser(user)
-      res.json({token: token})
+      res.json({token: token, userId: user._id, firstName: user.firstName})
     })
   })
 }
