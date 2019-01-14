@@ -27,7 +27,8 @@ exports.show = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   let task = new Task({
-    content: req.body.content
+    content: req.body.content,
+    userId: req.body.userId
   })
   await task.save()
   res.json(task)
