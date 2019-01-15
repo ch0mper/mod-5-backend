@@ -29,7 +29,8 @@ exports.create = async (req, res, next) => {
   let task = new Task({
     content: req.body.content,
     userId: req.body.userId,
-    completed: req.body.completed
+    completed: req.body.completed,
+    isPriority: req.body.isPriority
   })
   await task.save()
   res.json(task)

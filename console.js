@@ -30,12 +30,14 @@ pry = require("pryjs");
   const task1 = new Task({
     content: "this is the content of task1, belongs to megan",
     userId: user1._id,
-    completed: false
+    completed: false,
+    isPriority: false
   });
   const task2 = new Task({
     content: "another task yay, also belongs to megan",
     userId: user1._id,
-    completed: false
+    completed: false,
+    isPriority: true
   });
   await task1.save();
   await task2.save();
