@@ -8,6 +8,7 @@ const taskSchema = new Schema({
       ref: 'User'
     },
   completed: {type: Boolean},
+  isPriority: {type: Boolean}
 })
 
 const Task = mongoose.model('Task', taskSchema)
