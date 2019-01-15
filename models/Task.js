@@ -6,7 +6,8 @@ const taskSchema = new Schema({
   userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-    }
+    },
+  completed: {type: Boolean},
 })
 
 const Task = mongoose.model('Task', taskSchema)

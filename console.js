@@ -29,11 +29,13 @@ pry = require("pryjs");
   await Task.deleteMany();
   const task1 = new Task({
     content: "this is the content of task1, belongs to megan",
-    userId: user1._id
+    userId: user1._id,
+    completed: false
   });
   const task2 = new Task({
     content: "another task yay, also belongs to megan",
-    userId: user1._id
+    userId: user1._id,
+    completed: false
   });
   await task1.save();
   await task2.save();
