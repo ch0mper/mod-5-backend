@@ -33,21 +33,34 @@ pry = require("pryjs");
     completed: false,
     isPriority: false,
     isBacklog: false,
+    isRecurring: false,
     dateCreated: new Date(),
     dateUpdated: new Date()
   });
   const task2 = new Task({
-    content: "another task yay, also belongs to megan",
+    content: "a backlog task yay, also belongs to megan",
+    userId: user1._id,
+    completed: false,
+    isPriority: false,
+    isBacklog: true,
+    isRecurring: false,
+    dateCreated: new Date(),
+    dateUpdated: new Date()
+  });
+  const task3 = new Task({
+    content: "a daily",
     userId: user1._id,
     completed: false,
     isPriority: false,
     isBacklog: false,
+    isRecurring: true,
     dateCreated: new Date(),
     dateUpdated: new Date()
   });
   await task1.save();
   await task2.save();
-  console.log("Seeded DB with 2 new tasks.");
+  await task3.save();
+  console.log("Seeded DB with 3 new tasks.");
   tasks = await Task.find({});
 
   eval(pry.it);
