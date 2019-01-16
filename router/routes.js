@@ -23,10 +23,10 @@ module.exports = (app) => {
 
   app.get('/api/tasks', TaskController.index)
   app.get('/api/tasks/:id', TaskController.show)
-  app.post('/api/tasks', TaskController.create)
-  app.patch('/api/tasks/:id', TaskController.update)
-  app.delete('/api/tasks/:id', TaskController.delete)
+  app.post('/api/tasks', requireAuth, TaskController.create)
+  app.patch('/api/tasks/:id', requireAuth, TaskController.update)
+  app.delete('/api/tasks/:id', requireAuth, TaskController.delete)
 
-  app.get('/api/users/:id/tasks', TaskController.filteredTasks)
+  app.get('/api/users/:id/tasks', requireAuth, TaskController.filteredTasks)
 
 }
