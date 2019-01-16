@@ -34,7 +34,10 @@ exports.create = async (req, res, next) => {
     userId: req.body.userId,
     completed: req.body.completed,
     isPriority: req.body.isPriority,
-    isBacklog: req.body.isBacklog
+    isBacklog: req.body.isBacklog,
+    isRecurring: req.body.isRecurring,
+    dateCreated: req.body.dateCreated,
+    dateUpdated: req.body.dateUpdated
   })
   await task.save()
   res.json(task)
@@ -66,7 +69,7 @@ exports.delete = async (req, res, next) => {
 
 exports.filteredTasks = async (req, res, next) => {
   let allTasks = await Task.find({userId: req.params.id})
-  // just get todays tasks
+  // filter dateCreated === today's date
   let tasks = allTasks.filter(task => !task.isBacklog)
   res.json(tasks)
 }
@@ -75,4 +78,11 @@ exports.backlogTasks = async (req, res, next) => {
   let tasks = await Task.find({userId: req.params.id})
   let backlogTasks = tasks.filter(task => task.isBacklog)
   res.json(backlogTasks)
+}
+
+exports.dailyTasks = async (req, res, next) => {
+  let allTasks = await Task.find({userId: req.params.id})
+  // filter dateCreated === today's date
+  let tasks = allTasks.filter(task => task.isRecurring)
+  res.json(tasks)
 }

@@ -29,5 +29,6 @@ module.exports = (app) => {
 
   app.get('/api/users/:id/tasks', requireAuth, TaskController.filteredTasks)
   app.get('/api/users/:id/backlog', requireAuth, TaskController.backlogTasks)
+  app.get('/api/users/:id/dailies', requireAuth, TaskController.dailyTasks)
 
 }
