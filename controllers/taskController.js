@@ -62,7 +62,8 @@ exports.delete = async (req, res, next) => {
 }
 
 exports.filteredTasks = async (req, res, next) => {
-  let tasks = await Task.find({userId: req.params.id})
+  let allTasks = await Task.find({userId: req.params.id})
+  let tasks = allTasks.filter(task => !task.isBacklog)
   res.json(tasks)
 }
 

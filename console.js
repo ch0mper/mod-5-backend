@@ -13,12 +13,12 @@ pry = require("pryjs");
   await User.deleteMany();
   const user1 = new User({
     email: "megan@example.com",
-    password: "1234",
+    password: "12",
     firstName: 'Megan'
   });
   const user2 = new User({
     email: "barbara@example.com",
-    password: "1234",
+    password: "12",
     firstName: 'Barbara'
   });
   await user1.save();
