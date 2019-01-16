@@ -30,7 +30,8 @@ exports.create = async (req, res, next) => {
     content: req.body.content,
     userId: req.body.userId,
     completed: req.body.completed,
-    isPriority: req.body.isPriority
+    isPriority: req.body.isPriority,
+    isBacklog: req.body.isBacklog
   })
   await task.save()
   res.json(task)
@@ -63,4 +64,10 @@ exports.delete = async (req, res, next) => {
 exports.filteredTasks = async (req, res, next) => {
   let tasks = await Task.find({userId: req.params.id})
   res.json(tasks)
+}
+
+exports.backlogTasks = async (req, res, next) => {
+  let tasks = await Task.find({userId: req.params.id})
+  let backlogTasks = tasks.filter(task => task.isBacklog)
+  res.json(backlogTasks)
 }

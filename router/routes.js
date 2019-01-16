@@ -28,5 +28,6 @@ module.exports = (app) => {
   app.delete('/api/tasks/:id', requireAuth, TaskController.delete)
 
   app.get('/api/users/:id/tasks', requireAuth, TaskController.filteredTasks)
+  app.get('/api/users/:id/backlog', requireAuth, TaskController.backlogTasks)
 
 }
