@@ -34,7 +34,9 @@ exports.create = async (req, res, next) => {
     userId: req.body.userId,
     completed: req.body.completed,
     isPriority: req.body.isPriority,
-    isBacklog: req.body.isBacklog
+    isBacklog: req.body.isBacklog,
+    dateCreated: req.body.dateCreated,
+    dateUpdated: req.body.dateUpdated
   })
   await task.save()
   res.json(task)
