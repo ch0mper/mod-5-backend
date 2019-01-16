@@ -8,7 +8,9 @@ const taskSchema = new Schema({
       ref: 'User'
     },
   completed: {type: Boolean},
-  isPriority: {type: Boolean}
+  isPriority: {type: Boolean},
+  isBacklog: {type: Boolean},
+  dateCreated: {type: Date}
 })
 
 const Task = mongoose.model('Task', taskSchema)

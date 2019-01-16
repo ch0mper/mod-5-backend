@@ -13,12 +13,12 @@ pry = require("pryjs");
   await User.deleteMany();
   const user1 = new User({
     email: "megan@example.com",
-    password: "1234",
+    password: "12",
     firstName: 'Megan'
   });
   const user2 = new User({
     email: "barbara@example.com",
-    password: "1234",
+    password: "12",
     firstName: 'Barbara'
   });
   await user1.save();
@@ -31,13 +31,15 @@ pry = require("pryjs");
     content: "this is the content of task1, belongs to megan",
     userId: user1._id,
     completed: false,
-    isPriority: false
+    isPriority: false,
+    isBacklog: false
   });
   const task2 = new Task({
     content: "another task yay, also belongs to megan",
     userId: user1._id,
     completed: false,
-    isPriority: true
+    isPriority: false,
+    isBacklog: false
   });
   await task1.save();
   await task2.save();
