@@ -38,8 +38,8 @@ pry = require("pryjs");
     content: "another task yay, also belongs to megan",
     userId: user1._id,
     completed: false,
-    isPriority: true,
-    isBacklog: true
+    isPriority: false,
+    isBacklog: false
   });
   await task1.save();
   await task2.save();

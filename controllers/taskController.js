@@ -2,8 +2,11 @@ const Task = require('../models/Task.js')
 
 let catchAsync = promise => {
   return new Promise( (resolve) => {
-    promise.then( result => resolve([ null, result]))
-    promise.catch( error => resolve([ error, null ]))
+    promise.then(
+      result => resolve([ null, result]),
+      error => {
+        resolve([ error, null ])
+      })
   })
 }
 
@@ -63,6 +66,7 @@ exports.delete = async (req, res, next) => {
 
 exports.filteredTasks = async (req, res, next) => {
   let allTasks = await Task.find({userId: req.params.id})
+  // just get todays tasks
   let tasks = allTasks.filter(task => !task.isBacklog)
   res.json(tasks)
 }
