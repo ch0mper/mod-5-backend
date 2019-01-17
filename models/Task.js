@@ -12,7 +12,8 @@ const taskSchema = new Schema({
   isBacklog: {type: Boolean},
   isRecurring: {type: Boolean},
   dateCreated: {type: Date},
-  dateUpdated: {type: Date}
+  dateUpdated: {type: Date},
+  simpleDateUpdated: {type: Number}
 })
 
 const Task = mongoose.model('Task', taskSchema)

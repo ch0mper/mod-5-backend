@@ -4,7 +4,8 @@ const jobs = require('./scheduledJobs');
 console.log('scheduler script is running...')
 
 let dailyRule = new scheduler.RecurrenceRule();
-dailyRule.hour = 12; // everyday at 11am cst
+dailyRule.hour = 13; // everyday at 1:42pm cst
+dailyRule.minute = 42
 
 let every30secRule = new scheduler.RecurrenceRule();
 every30secRule.second = 30; // every 30 seconds
@@ -17,9 +18,9 @@ every30secRule.second = 30; // every 30 seconds
 //   console.log('recurring at 11am cst');
 // });
 
-scheduler.scheduleJob(dailyRule, function(){
-  console.log('this runs at 12pm cst');
-});
+// scheduler.scheduleJob(dailyRule, function(){
+//   console.log('this runs at 1:42pm cst');
+// });
 
 
 // scheduler.scheduleJob('3 11 * * *', function(){
