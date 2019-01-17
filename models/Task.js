@@ -7,7 +7,7 @@ const taskSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-  completed: {type: Boolean},
+  isCompleted: {type: Boolean},
   isPriority: {type: Boolean},
   isBacklog: {type: Boolean},
   isRecurring: {type: Boolean},

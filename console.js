@@ -30,7 +30,7 @@ pry = require("pryjs");
   const task1 = new Task({
     content: "this is the content of task1, belongs to megan",
     userId: user1._id,
-    completed: false,
+    isCompleted: false,
     isPriority: false,
     isBacklog: false,
     isRecurring: false,
@@ -40,7 +40,7 @@ pry = require("pryjs");
   const task2 = new Task({
     content: "a backlog task yay, also belongs to megan",
     userId: user1._id,
-    completed: false,
+    isCompleted: false,
     isPriority: false,
     isBacklog: true,
     isRecurring: false,
@@ -50,7 +50,7 @@ pry = require("pryjs");
   const task3 = new Task({
     content: "a daily",
     userId: user1._id,
-    completed: false,
+    isCompleted: false,
     isPriority: false,
     isBacklog: false,
     isRecurring: true,

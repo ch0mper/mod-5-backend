@@ -11,6 +11,8 @@ every30secRule.second = 30; // every 30 seconds
 
 // scheduler.scheduleJob(every30secRule, jobs.test);
 
+// scheduler.scheduleJob(every30secRule, jobs.testWithTasks);
+
 // scheduler.scheduleJob(every30secRule, function(){
 //   console.log('recurring at 11am cst');
 // });
