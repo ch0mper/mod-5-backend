@@ -4,8 +4,8 @@ const jobs = require('./scheduledJobs');
 console.log('scheduler script is running...')
 
 let dailyRule = new scheduler.RecurrenceRule();
-dailyRule.hour = 9; // everyday at 9:30am cst
-dailyRule.minute = 30
+dailyRule.hour = 0; // everyday at 9:30am cst
+dailyRule.minute = 01
 
 let every30secRule = new scheduler.RecurrenceRule();
 every30secRule.second = 30; // every 30 seconds
@@ -21,3 +21,4 @@ every30secRule.second = 30; // every 30 seconds
 // });
 
 scheduler.scheduleJob(dailyRule, jobs.recurringTasks) // should create daily tasks from yesterday
+scheduler.scheduleJob(dailyRule, jobs.rolledOverTasks) // should create rollover tasks from yesterday

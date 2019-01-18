@@ -69,9 +69,9 @@ exports.delete = async (req, res, next) => {
 }
 
 exports.filteredTasks = async (req, res, next) => {
-  let allTasks = await Task.find({userId: req.params.id})
-  // filter dateCreated === today's date
-  let tasks = allTasks.filter(task => !task.isBacklog && !task.isRecurring)
+  let simpleToday = parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+  let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
+  let tasks = allTasks.filter(task => !task.isBacklog && !task.isRecurring && !task.rolledOver)
   res.json(tasks)
 }
 
@@ -86,4 +86,10 @@ exports.dailyTasks = async (req, res, next) => {
   let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
   let tasks = allTasks.filter(task => task.isRecurring)
   res.json(tasks)
+}
+
+exports.rolledOverTasks = async (req, res, next) => {
+  let tasks = await Task.find({userId: req.params.id})
+  let rolledOverTasks = tasks.filter(task => task.rolledOver)
+  res.json(rolledOverTasks)
 }

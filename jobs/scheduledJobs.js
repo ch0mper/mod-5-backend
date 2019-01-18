@@ -37,6 +37,27 @@ exports.recurringTasks = () => {
   });
 }
 
+exports.rolledOverTasks = () => {
+  console.log('should create rollover tasks from yesterday')
+  let simpleYesterday = parseInt((new Date(Date.now() - 108e6)).toISOString().slice(0,10).replace(/-/g,""))
+  Task.find({simpleDateUpdated: simpleYesterday, isCompleted: false, isRecurring: false, isBacklog: false}, (err, tasks) => {
+    tasks.map(task => {
+      new Task({
+        content: task.content,
+        userId: task.userId,
+        isCompleted: false,
+        isPriority: false,
+        isBacklog: false,
+        isRecurring: false,
+        rolledOver: true,
+        dateCreated: new Date(Date.now() - 216e5), // minus 6 hours
+        dateUpdated: new Date(Date.now() - 216e5), // minus 6 hours
+        simpleDateUpdated: parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+      }).save()
+    })
+  });
+}
+
 
 // content: input.content,
 // userId: userId,
@@ -44,6 +65,7 @@ exports.recurringTasks = () => {
 // isPriority: false,
 // isBacklog: false,
 // isRecurring: `${recurringStatus}`, //true from daily, false from mainlist
+// rolledOver: true, //when true rendered in rolledover container
 // dateCreated: new Date(),
 // dateUpdated: new Date(),
 // simpleDateUpdated: parseInt((new Date()).toISOString().slice(0,10).replace(/-/g,""))
