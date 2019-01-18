@@ -82,8 +82,8 @@ exports.backlogTasks = async (req, res, next) => {
 }
 
 exports.dailyTasks = async (req, res, next) => {
-  let allTasks = await Task.find({userId: req.params.id})
-  // filter dateCreated === today's date
+  let simpleToday = parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+  let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
   let tasks = allTasks.filter(task => task.isRecurring)
   res.json(tasks)
 }

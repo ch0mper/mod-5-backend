@@ -10,9 +10,6 @@ mongoose.connect(
 exports.testWithTasks = () => {
   Task.find({isRecurring: true, isCompleted: true}, (err, tasks) => {
     console.log('recurring', tasks);
-    // only get the ones that are yesterday's
-    // map through the tasks to create new Task with task.content etc
-    // try adding .save to the new Task
   });
 }
 
@@ -20,20 +17,33 @@ exports.test = () => {
   console.log('scheduled job test')
 }
 
-// exports.rolloverTasks = () => {
-  Task.find({isCompleted: !'hi'}, (err, tasks) => {
+exports.recurringTasks = () => {
+  console.log('should create daily tasks from yesterday')
+  let simpleYesterday = parseInt((new Date(Date.now() - 108e6)).toISOString().slice(0,10).replace(/-/g,""))
+  Task.find({simpleDateUpdated: simpleYesterday, isRecurring: true}, (err, tasks) => {
     tasks.map(task => {
-      console.log('in map 2 tasks', task.content)
+      new Task({
+        content: task.content,
+        userId: task.userId,
+        isCompleted: false,
+        isPriority: false,
+        isBacklog: false,
+        isRecurring: true,
+        dateCreated: new Date(Date.now() - 216e5), // minus 6 hours
+        dateUpdated: new Date(Date.now() - 216e5), // minus 6 hours
+        simpleDateUpdated: parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+      }).save()
     })
   });
-// }
+}
 
-let today = new Date()
-let simpleDate = parseInt(today.toISOString().slice(0,10).replace(/-/g,""));
-let yesterday = simpleDate - 1
 
-// Math.floor((new Date()) / (24*60*60*1000)) // todays date in days
-
-// if e is the dateUpdated:
-// this is truthy when it's yesterday's date
-// Math.floor(e / (24*60*60*1000)) == Math.floor((new Date()) / (24*60*60*1000)) - 1
+// content: input.content,
+// userId: userId,
+// isCompleted: false,
+// isPriority: false,
+// isBacklog: false,
+// isRecurring: `${recurringStatus}`, //true from daily, false from mainlist
+// dateCreated: new Date(),
+// dateUpdated: new Date(),
+// simpleDateUpdated: parseInt((new Date()).toISOString().slice(0,10).replace(/-/g,""))

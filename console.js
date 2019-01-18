@@ -35,7 +35,8 @@ pry = require("pryjs");
     isBacklog: false,
     isRecurring: false,
     dateCreated: new Date(),
-    dateUpdated: new Date()
+    dateUpdated: new Date(),
+    simpleDateUpdated: parseInt((new Date()).toISOString().slice(0,10).replace(/-/g,""))
   });
   const task2 = new Task({
     content: "a backlog task yay, also belongs to megan",
@@ -45,7 +46,8 @@ pry = require("pryjs");
     isBacklog: true,
     isRecurring: false,
     dateCreated: new Date(),
-    dateUpdated: new Date()
+    dateUpdated: new Date(),
+    simpleDateUpdated: parseInt((new Date()).toISOString().slice(0,10).replace(/-/g,""))
   });
   const task3 = new Task({
     content: "a daily",
@@ -55,7 +57,8 @@ pry = require("pryjs");
     isBacklog: false,
     isRecurring: true,
     dateCreated: new Date(),
-    dateUpdated: new Date()
+    dateUpdated: new Date(),
+    simpleDateUpdated: parseInt((new Date()).toISOString().slice(0,10).replace(/-/g,""))
   });
   await task1.save();
   await task2.save();
