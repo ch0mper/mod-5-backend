@@ -7,12 +7,14 @@ const taskSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-  completed: {type: Boolean},
+  isCompleted: {type: Boolean},
   isPriority: {type: Boolean},
   isBacklog: {type: Boolean},
   isRecurring: {type: Boolean},
+  rolledOver: {type: Boolean},
   dateCreated: {type: Date},
-  dateUpdated: {type: Date}
+  dateUpdated: {type: Date},
+  simpleDateUpdated: {type: Number}
 })
 
 const Task = mongoose.model('Task', taskSchema)

@@ -32,12 +32,13 @@ exports.create = async (req, res, next) => {
   let task = new Task({
     content: req.body.content,
     userId: req.body.userId,
-    completed: req.body.completed,
+    isCompleted: req.body.isCompleted,
     isPriority: req.body.isPriority,
     isBacklog: req.body.isBacklog,
     isRecurring: req.body.isRecurring,
     dateCreated: req.body.dateCreated,
-    dateUpdated: req.body.dateUpdated
+    dateUpdated: req.body.dateUpdated,
+    simpleDateUpdated: req.body.simpleDateUpdated
   })
   await task.save()
   res.json(task)
@@ -68,9 +69,9 @@ exports.delete = async (req, res, next) => {
 }
 
 exports.filteredTasks = async (req, res, next) => {
-  let allTasks = await Task.find({userId: req.params.id})
-  // filter dateCreated === today's date
-  let tasks = allTasks.filter(task => !task.isBacklog)
+  let simpleToday = parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+  let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
+  let tasks = allTasks.filter(task => !task.isBacklog && !task.isRecurring && !task.rolledOver)
   res.json(tasks)
 }
 
@@ -81,8 +82,14 @@ exports.backlogTasks = async (req, res, next) => {
 }
 
 exports.dailyTasks = async (req, res, next) => {
-  let allTasks = await Task.find({userId: req.params.id})
-  // filter dateCreated === today's date
+  let simpleToday = parseInt((new Date(Date.now() - 216e5)).toISOString().slice(0,10).replace(/-/g,""))
+  let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
   let tasks = allTasks.filter(task => task.isRecurring)
   res.json(tasks)
+}
+
+exports.rolledOverTasks = async (req, res, next) => {
+  let tasks = await Task.find({userId: req.params.id})
+  let rolledOverTasks = tasks.filter(task => task.rolledOver)
+  res.json(rolledOverTasks)
 }

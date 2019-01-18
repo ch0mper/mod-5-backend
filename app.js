@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport')
 const bodyParser = require('body-parser')
+const scheduler = require('node-schedule');
+// require('dotenv').config();
 
 const router = require('./router/routes')
+const jobs = require('./jobs/scheduler');
 
 const app = express();
 
@@ -16,7 +19,7 @@ router(app)
 const server = http.createServer(app)
 const port = 5000
 
-console.log('Connecting to Local Database.');
+console.log('Connecting to Local Database...');
 mongoose.connect('mongodb://localhost/mod-5', { useNewUrlParser: true })
 
 server.listen(port)
