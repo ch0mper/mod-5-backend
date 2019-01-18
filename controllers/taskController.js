@@ -36,6 +36,8 @@ exports.create = async (req, res, next) => {
     isPriority: req.body.isPriority,
     isBacklog: req.body.isBacklog,
     isRecurring: req.body.isRecurring,
+    rolledOver: req.body.rolledOver,
+    streak: req.body.streak,
     dateCreated: req.body.dateCreated,
     dateUpdated: req.body.dateUpdated,
     simpleDateUpdated: req.body.simpleDateUpdated
