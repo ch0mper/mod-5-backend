@@ -82,8 +82,8 @@ exports.rolledOverTasks = () => {
       new Task({
         content: task.content,
         userId: task.userId,
-        // isCompleted: false,
-        // isPriority: false,
+        isCompleted: false,
+        isPriority: false,
         // isBacklog: false,
         // isRecurring: false,
         rolledOver: true,
