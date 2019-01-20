@@ -23,7 +23,7 @@ exports.test = () => {
 
 
 incrementStreakForCompletedDailies = (yesterday) => {
-  console.log('incrementing streak for completed dailies from', yesterday)
+  console.log('incrementing streak for completed dailies from', yesterday, '...')
   return new Promise(resolve => {
     Task.find({simpleDateUpdated: yesterday, isRecurring: true, isCompleted: true}, (err, tasks) => {
       tasks.map(task => {
@@ -48,7 +48,7 @@ createDailyTasks = (yesterday) => {
         userId: task.userId,
         // isCompleted: false,
         // isPriority: false,
-        // isBacklog: false,
+        isBacklog: false,
         isRecurring: true,
         streak: task.streak,
         dateCreated: new Date(Date.now() - sixHours), // minus 6 hours for CST
@@ -60,19 +60,11 @@ createDailyTasks = (yesterday) => {
 }
 
 exports.recurringTasks = async () => {
-  console.log('creating daily tasks from yesterday');
   let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
-
   await incrementStreakForCompletedDailies(simpleYesterday);
+  console.log('creating daily tasks from yesterday...');
   createDailyTasks(simpleYesterday);
-
 }
-
-///////////////
-///////////////
-///////////////
-///////////////
-///////////////
 
 exports.rolledOverTasks = () => {
   console.log('should create rollover tasks from yesterday')
@@ -84,8 +76,8 @@ exports.rolledOverTasks = () => {
         userId: task.userId,
         isCompleted: false,
         isPriority: false,
-        // isBacklog: false,
-        // isRecurring: false,
+        isBacklog: false,
+        isRecurring: false,
         rolledOver: true,
         dateCreated: new Date(Date.now() - sixHours), // minus 6 hours for CST
         dateUpdated: new Date(Date.now() - sixHours), // minus 6 hours for CST
