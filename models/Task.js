@@ -12,6 +12,7 @@ const taskSchema = new Schema({
   isBacklog: {type: Boolean},
   isRecurring: {type: Boolean},
   rolledOver: {type: Boolean},
+  streak: {type: Number},
   dateCreated: {type: Date},
   dateUpdated: {type: Date},
   simpleDateUpdated: {type: Number}
