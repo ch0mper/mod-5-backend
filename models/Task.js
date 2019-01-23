@@ -13,6 +13,8 @@ const taskSchema = new Schema({
   isRecurring: {type: Boolean},
   rolledOver: {type: Boolean},
   streak: {type: Number},
+  isSuggested: {type: Boolean},
+  suggested: {type: Number},
   dateCreated: {type: Date},
   dateUpdated: {type: Date},
   simpleDateUpdated: {type: Number}

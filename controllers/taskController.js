@@ -38,6 +38,8 @@ exports.create = async (req, res, next) => {
     isRecurring: req.body.isRecurring,
     rolledOver: req.body.rolledOver,
     streak: req.body.streak,
+    isSuggested: req.body.isSuggested,
+    suggested: req.body.suggested,
     dateCreated: req.body.dateCreated,
     dateUpdated: req.body.dateUpdated,
     simpleDateUpdated: req.body.simpleDateUpdated

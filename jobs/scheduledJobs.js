@@ -27,20 +27,23 @@ incrementStreakForCompletedDailies = (yesterday) => {
   return new Promise(resolve => {
     Task.find({simpleDateUpdated: yesterday, isRecurring: true, isCompleted: true}, (err, tasks) => {
       tasks.map(task => {
-        streak: task.streak++
+        task.streak++
 
         task.save( err => {
           if(err) {
             console.error('ERROR!');
           }
         });
-        resolve(task);
+        //resolve(task);
       })
+      resolve()
     })
+    console.log('does this happen. yes.')
   });
 }
 
 createDailyTasks = (yesterday) => {
+  console.log('creating daily tasks from yesterday...');
   Task.find({simpleDateUpdated: yesterday, isRecurring: true}, (err, tasks) => {
     tasks.map(task => {
       new Task({
@@ -60,15 +63,15 @@ createDailyTasks = (yesterday) => {
 }
 
 exports.recurringTasks = async () => {
-  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
+  let simpleYesterday = parseInt((new Date(Date.now() - twentyFourHours)).toISOString().slice(0,10).replace(/-/g,""))
   await incrementStreakForCompletedDailies(simpleYesterday);
-  console.log('creating daily tasks from yesterday...');
+  // TODO isCompleted false will reset streak to 0
   createDailyTasks(simpleYesterday);
 }
 
 exports.rolledOverTasks = () => {
   console.log('should create rollover tasks from yesterday')
-  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
+  let simpleYesterday = parseInt((new Date(Date.now() - twentyFourHours)).toISOString().slice(0,10).replace(/-/g,""))
   Task.find({simpleDateUpdated: simpleYesterday, isCompleted: false, isRecurring: false, isBacklog: false}, (err, tasks) => {
     tasks.map(task => {
       new Task({
@@ -86,6 +89,52 @@ exports.rolledOverTasks = () => {
     })
   });
 }
+
+
+setBacklogToFalse = () => {
+  console.log('setting backlog .isSuggested to false')
+  return new Promise(resolve => {
+    Task.find({isBacklog: true}, (err, tasks) => {
+      tasks.map(task => {
+        task.isSuggested = false
+
+        task.save( err => {
+          if(err) {
+            console.error('ERROR!');
+          }
+        });
+      })
+      resolve()
+    })
+  });
+}
+
+selectItem = () => {
+  console.log('sort backlog by priority and .selected')
+
+  User.find({}, (err, users) => {
+    users.forEach( user => {
+      Task.find({userId: user._id, isBacklog: true}, (err, tasks) => {
+        tasks.sort(function(a,b){return b.isPriority-a.isPriority});
+        tasks.sort(function(a,b){return a.suggested-b.suggested});
+        let suggestedTask = tasks[0]
+        suggestedTask.isSuggested = true
+        suggestedTask.suggested++
+        suggestedTask.save()
+        // select tasks[0] to update .isSuggested to true, and .suggested++ and save
+      })
+    })
+  })
+}
+
+exports.selectSuggestion = async () => {
+  //sets all backlog items.isSuggested to false, sorts by priority and .suggested counter
+  //then toggles one backlog item to suggest: true, and increments suggested
+  await setBacklogToFalse(); // sets all to false
+  selectItem();
+}
+
+
 
 
 // content: {type: String, required: true},
