@@ -1,6 +1,7 @@
 const UserController = require('../controllers/userController');
 const TaskController = require('../controllers/taskController');
 const Authentication = require('../controllers/authentication');
+const demo = require('../jobs/demoJobs');
 
 const passport = require('../services/passport')
 
@@ -31,5 +32,14 @@ module.exports = (app) => {
   app.get('/api/users/:id/backlog', requireAuth, TaskController.backlogTasks)
   app.get('/api/users/:id/dailies', requireAuth, TaskController.dailyTasks)
   app.get('/api/users/:id/rollover', requireAuth, TaskController.rolledOverTasks)
+
+  // app.get('/api/users/:id/demo/dailies', demo.recurringTasks)
+  // app.get('/api/users/:id/demo/rollover', demo.rolledOverTasks)
+  // app.get('/api/users/:id/demo/suggestion', demo.selectSuggestion)
+  //
+  // app.get('/api/users/:id/demo/tasks', requireAuth, TaskController.filteredTasksDemo)
+  // app.get('/api/users/:id/demo/backlog', requireAuth, TaskController.backlogTasksDemo)
+  // app.get('/api/users/:id/demo/dailies', requireAuth, TaskController.dailyTasksDemo)
+  // app.get('/api/users/:id/demo/rollover', requireAuth, TaskController.rolledOverTasksDemo)
 
 }
