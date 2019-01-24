@@ -69,7 +69,7 @@ createDailyTasks = (yesterday) => {
 }
 
 exports.recurringTasks = async () => {
-  let simpleYesterday = parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
   await incrementStreakForCompletedDailies(simpleYesterday);
   await clearStreakForDailies(simpleYesterday);
   createDailyTasks(simpleYesterday);
@@ -77,7 +77,7 @@ exports.recurringTasks = async () => {
 
 exports.rolledOverTasks = () => {
   console.log('should create rollover tasks from yesterday')
-  let simpleYesterday = parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
   Task.find({simpleDateUpdated: simpleYesterday, isCompleted: false, isRecurring: false, isBacklog: false}, (err, tasks) => {
     tasks.map(task => {
       new Task({
