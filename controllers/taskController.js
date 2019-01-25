@@ -98,3 +98,28 @@ exports.rolledOverTasks = async (req, res, next) => {
   let rolledOverTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday, rolledOver: true})
   res.json(rolledOverTasks)
 }
+
+// demo routes get tasks for tomorrow
+// exports.filteredTasksDemo = async (req, res, next) => {
+//   let simpleToday = parseInt((new Date(Date.now() + 864e5)).toISOString().slice(0,10).replace(/-/g,""))
+//   let allTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday})
+//   let tasks = allTasks.filter(task => !task.isBacklog && !task.isRecurring && !task.rolledOver)
+//   res.json(tasks)
+// }
+//
+// exports.backlogTasksDemo = async (req, res, next) => {
+//   let backlogTasks = await Task.find({userId: req.params.id, isBacklog: true})
+//   res.json(backlogTasks)
+// }
+//
+// exports.dailyTasksDemo = async (req, res, next) => {
+//   let simpleToday = parseInt((new Date(Date.now() + 864e5)).toISOString().slice(0,10).replace(/-/g,""))
+//   let tasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday, isRecurring: true})
+//   res.json(tasks)
+// }
+//
+// exports.rolledOverTasksDemo = async (req, res, next) => {
+//   let simpleToday = parseInt((new Date(Date.now() + 864e5)).toISOString().slice(0,10).replace(/-/g,""))
+//   let rolledOverTasks = await Task.find({userId: req.params.id, simpleDateUpdated: simpleToday, rolledOver: true})
+//   res.json(rolledOverTasks)
+// }

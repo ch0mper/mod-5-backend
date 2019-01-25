@@ -1,32 +1,20 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const User = require("../models/User.js");
 const Task = require("../models/Task.js");
 
-mongoose.connect(
-  "mongodb://localhost/mod-5",
-  { useNewUrlParser: true }
-);
+// mongoose.connect(
+//   "mongodb://localhost/mod-5",
+//   { useNewUrlParser: true }
+// );
 
 const sixHours = 216e5; // adjusts to CST
 const sevenHours = 252e5; // when job runs at 12:01am, this time is 11:01pm previous day
 const twentyFourHours = 864e5;
 
-// let today = parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
-// deleteToday = (today) => {
-//   Task.find({simpleDateUpdated: today, isRecurring: true}, (err, tasks) => {
-//     tasks.map(task => {
-//       task.remove()
-//       console.log('removed')
-//     })
-//   });
-// }
-
-// deleteToday(today)
-
-incrementStreakForCompletedDailies = (yesterday) => {
-  console.log('incrementing streak for completed dailies from', yesterday, '...')
+incrementStreakForCompletedDailies = (today) => {
+  console.log('incrementing streak for completed dailies from', today, '...')
   return new Promise(resolve => {
-    Task.find({simpleDateUpdated: yesterday, isRecurring: true, isCompleted: true}, (err, tasks) => {
+    Task.find({simpleDateUpdated: today, isRecurring: true, isCompleted: true}, (err, tasks) => {
       tasks.map(task => {
         task.streak++
 
@@ -41,10 +29,10 @@ incrementStreakForCompletedDailies = (yesterday) => {
   });
 }
 
-clearStreakForDailies = (yesterday) => {
-  console.log('clearing streak for not done dailies from', yesterday, '...')
+clearStreakForDailies = (today) => {
+  console.log('clearing streak for not done dailies from', today, '...')
   return new Promise(resolve => {
-    Task.find({simpleDateUpdated: yesterday, isRecurring: true, isCompleted: false}, (err, tasks) => {
+    Task.find({simpleDateUpdated: today, isRecurring: true, isCompleted: false}, (err, tasks) => {
       tasks.map(task => {
         task.streak = 0
 
@@ -60,9 +48,9 @@ clearStreakForDailies = (yesterday) => {
   });
 }
 
-createDailyTasks = (yesterday) => {
-  console.log('creating daily tasks from yesterday...');
-  Task.find({simpleDateUpdated: yesterday, isRecurring: true}, (err, tasks) => {
+createDailyTasks = (today) => {
+  console.log('creating daily tasks from today...');
+  Task.find({simpleDateUpdated: today, isRecurring: true}, (err, tasks) => {
     tasks.map(task => {
       new Task({
         content: task.content,
@@ -72,25 +60,25 @@ createDailyTasks = (yesterday) => {
         isBacklog: false,
         isRecurring: true,
         streak: task.streak,
-        dateCreated: new Date(Date.now() - sixHours), // minus 6 hours for CST
-        dateUpdated: new Date(Date.now() - sixHours), // minus 6 hours for CST
-        simpleDateUpdated: parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+        dateCreated: new Date(Date.now() + twentyFourHours), // 18 hours ahead of CST for demo
+        dateUpdated: new Date(Date.now() + twentyFourHours), // 18 hours ahead of CST for demo
+        simpleDateUpdated: parseInt((new Date(Date.now() + twentyFourHours)).toISOString().slice(0,10).replace(/-/g,""))
       }).save()
     })
   });
 }
 
 exports.recurringTasks = async () => {
-  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
-  await incrementStreakForCompletedDailies(simpleYesterday);
-  await clearStreakForDailies(simpleYesterday);
-  createDailyTasks(simpleYesterday);
+  let simpleToday = parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+  await incrementStreakForCompletedDailies(simpleToday);
+  await clearStreakForDailies(simpleToday);
+  createDailyTasks(simpleToday);
 }
 
 exports.rolledOverTasks = () => {
-  console.log('should create rollover tasks from yesterday')
-  let simpleYesterday = parseInt((new Date(Date.now() - sevenHours)).toISOString().slice(0,10).replace(/-/g,""))
-  Task.find({simpleDateUpdated: simpleYesterday, isCompleted: false, isRecurring: false, isBacklog: false}, (err, tasks) => {
+  console.log('should create rollover tasks from today')
+  let simpleToday = parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+  Task.find({simpleDateUpdated: simpleToday, isCompleted: false, isRecurring: false, isBacklog: false}, (err, tasks) => {
     tasks.map(task => {
       new Task({
         content: task.content,
@@ -100,9 +88,9 @@ exports.rolledOverTasks = () => {
         isBacklog: false,
         isRecurring: false,
         rolledOver: true,
-        dateCreated: new Date(Date.now() - sixHours), // minus 6 hours for CST
-        dateUpdated: new Date(Date.now() - sixHours), // minus 6 hours for CST
-        simpleDateUpdated: parseInt((new Date(Date.now() - sixHours)).toISOString().slice(0,10).replace(/-/g,""))
+        dateCreated: new Date(Date.now() + twentyFourHours), // 18 hours ahead of CST for demo
+        dateUpdated: new Date(Date.now() + twentyFourHours), // 18 hours ahead of CST for demo
+        simpleDateUpdated: parseInt((new Date(Date.now() + twentyFourHours)).toISOString().slice(0,10).replace(/-/g,""))
       }).save()
     })
   });
