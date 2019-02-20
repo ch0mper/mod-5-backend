@@ -1,4 +1,4 @@
-## mod-5-project: a planner app
+## mod-5-project: a planning app
 
 A bullet journal-style planner to track daily habits, rollover unfinished tasks, and save items for later with automatic reminders.
 
